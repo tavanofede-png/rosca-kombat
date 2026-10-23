@@ -6,7 +6,10 @@ import path from 'node:path';
 const root=fileURLToPath(new URL('../',import.meta.url));
 mkdirSync(path.join(root,'build'),{recursive:true});
 const sources=['src/main.c','src/roster.c', ...Array.from({length:8},(_,i)=>`src/art${i+2}.c`),'src/stages.c'];
-const gbdkDir=(process.env.GBDKDIR??'tools/gbdk/').replaceAll('\\','/').replace(/\/?$/,'/');
+// The lcc driver concatenates internal commands without quoting GBDKDIR.
+// A relative path avoids inheriting spaces from the checkout's parent path.
+const gbdkLocation=path.resolve(root,process.env.GBDKDIR??'tools/gbdk/');
+const gbdkDir=(path.relative(root,gbdkLocation)||'.').replaceAll('\\','/').replace(/\/?$/,'/');
 const compiler=process.env.GBDK_LCC??path.join(gbdkDir,'bin',process.platform==='win32'?'lcc.exe':'lcc');
 const r=spawnSync(compiler,[
   '-Wm-yC','-Wm-ynROSCAKOMBAT','-Wm-yt0x19','-Wm-yo16','-Wl-m','-Wl-j',
