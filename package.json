@@ -1,0 +1,14 @@
+{
+  "name": "rosca-kombat",
+  "version": "1.2.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Sátira de lucha arcade para Game Boy Color y ModRetro Chromatic",
+  "scripts": {
+    "art:pack": "node scripts/pack-art.mjs",
+    "build": "node scripts/make-assets.mjs && node scripts/build.mjs",
+    "test": "node scripts/test.mjs",
+    "play:pc": "node scripts/play-pc.mjs",
+    "play:chromatic": "node scripts/play-chromatic.mjs"
+  }
+}
